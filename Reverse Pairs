@@ -1,0 +1,67 @@
+class Solution {
+public:
+    void merge(vector<int>& array, int s, int e) {
+        int i = s;
+        int m = (s + e) / 2;
+        int j = m + 1;
+
+        vector<int> temp;
+
+        while (i <= m and j <= e) {
+            if (array[i] < array[j]) {
+                temp.push_back(array[i]);
+                i++;
+            } else {
+                temp.push_back(array[j]);
+                j++;
+            }
+        }
+
+        // copy rem elements from first array
+        while (i <= m) {
+            temp.push_back(array[i++]);
+        }
+
+        // or copy rem elements from second array
+        while (j <= e) {
+            temp.push_back(array[j++]);
+        }
+
+        // copy back the eleemtns from temp to original array
+        int k = 0;
+        for (int idx = s; idx <= e; idx++) {
+            array[idx] = temp[k++];
+        }
+        return;
+    }
+
+    int count(vector<int>& v, int l, int mid, int high) {
+        int right = mid + 1;
+        int cnt(0);
+        for (int i(l); i <= mid; i++) {
+            while (right <= high and v[i] > 2ll * v[right])
+                right++;
+            cnt += (right - (mid + 1));
+        }
+        return cnt;
+    }
+
+    // sorting method
+    int mergesort(vector<int>& arr, int s, int e) {
+        // base case
+        int cnt(0);
+        if (s >= e)
+            return cnt;
+        // rec case
+        int mid = (s + e) / 2;
+        cnt += mergesort(arr, s, mid);
+        cnt += mergesort(arr, mid + 1, e);
+        cnt += count(arr, s, mid, e);
+        merge(arr, s, e);
+        return cnt;
+    }
+
+    int reversePairs(vector<int>& nums) {
+        return mergesort(nums, 0, nums.size() - 1);
+    }
+};
