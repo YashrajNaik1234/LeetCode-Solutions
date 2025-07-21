@@ -2,7 +2,7 @@ class Solution{
 public:
     int lowerBound(vector<int> &nums, int x){
         // Set the left and right boundaries
-        int left = 0, right = int(nums.size());
+        int left = 0, right = int(nums.size() - 1);
         int ans(nums.size());
         
         while (left <= right) {
