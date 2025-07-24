@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans(0),k(prices[0]);
+
+        for(int i(1);i < prices.size();i++){
+            if(k > prices[i]) k = prices[i];
+            else ans = max(ans , prices[i] - k);
+        }
+
+        return ans;
+    }
+};
