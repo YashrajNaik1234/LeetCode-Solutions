@@ -1,0 +1,50 @@
+class Solution {
+public:
+    ListNode* findMiddle(ListNode* head){
+        ListNode* slow = head;
+        ListNode* fast = head -> next;
+
+        while(fast and fast -> next){
+            slow = slow -> next;
+            fast = fast -> next -> next;
+        }
+
+        return slow;
+    }
+    ListNode* Merge(ListNode* list1, ListNode* list2){
+        ListNode* dummy = new ListNode(-1);
+        ListNode* res = dummy;
+
+        while(list1 and list2){
+            if(list1 -> val < list2 -> val){
+                res -> next = list1;
+                res = list1;
+                list1 = list1 -> next;
+            }
+            else{
+                res -> next = list2;
+                res = list2;
+                list2 = list2 -> next;
+            }
+
+            res -> next = nullptr;
+        }
+
+        (list1) ? res -> next = list1 : res -> next = list2;
+
+        return dummy -> next;
+    }
+    ListNode* sortList(ListNode* head) {
+        if(!head or !(head -> next)) return head;
+
+        ListNode* middle = findMiddle(head);
+
+        ListNode* Right = middle -> next;
+        middle -> next = nullptr;
+        ListNode* Left = head;
+        
+        Left = sortList(Left);
+        Right = sortList(Right);
+        return Merge(Left, Right);
+    }
+};
