@@ -1,19 +1,39 @@
 class Solution {
 public:
-    long long bowlSubarrays(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> st;
-        long long res = 0;
-
-        for(auto i: nums){
-            while(!st.empty() and st.back() < i){
-                res++; st.pop_back();
+    vector<int> next_right(vector<int>& a) {
+        int n = a.size();
+        vector<int> res(n, -1);
+        stack<int> st;
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && a[i] >= a[st.top()]) {
+                res[st.top()] = i;
+                st.pop();
             }
+            st.push(i);
+        }
+        return res;
+    }
+    vector<int> next_left(vector<int>& a) {
+        int n = a.size();
+        vector<int> res(n, -1);
+        stack<int> st;
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && a[st.top()] < a[i])
+                st.pop();
+            if (!st.empty())
+                res[i] = st.top();
+            st.push(i);
+        }
+        return res;
+    }
+    long long bowlSubarrays(vector<int>& nums) {
+        vector<int> right = next_right(nums), left = next_left(nums);
 
-            if(!st.empty()) res++; st.push_back(i);
+        int ans(0);
+        for(int i(0);i < nums.size();i++){
+            if(left[i] != -1 and left[i] < i and right[i] > i) ans++;
         }
 
-        if(res - (n - 1) < 0) return 0;
-        return res - (n - 1);
+        return ans;
     }
-};©leetcode
+};
