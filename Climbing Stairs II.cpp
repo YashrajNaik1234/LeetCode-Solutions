@@ -1,13 +1,15 @@
 class Solution {
 public:
     int climbStairs(int n, vector<int>& costs) {
-        if(n == 0) return 0;
-        vector<int> dp(n + 1, INT_MAX); dp[0] = 0;
+        if(n == 1) return costs[0] + 1;
+        
+        vector<int> dp(n + 1); 
+        dp[0] = 0;
+        dp[1] = costs[0] + 1;
+        dp[2] = min(costs[1] + 4, dp[1] + costs[1] + 1);
 
-        for(int i(1);i <= n;i++){
-            for(int j(1);j <= 3;j++){
-                if(i - j >= 0 and dp[i - j] != INT_MAX) dp[i] = min(dp[i], dp[i - j] + costs[i - 1] + j * j);
-            }
+        for(int i(3);i <= n;i++){
+            dp[i] = costs[i - 1] + min({dp[i - 1] + 1, dp[i - 2] + 4, dp[i - 3] + 9});
         }
         
         return dp[n];
