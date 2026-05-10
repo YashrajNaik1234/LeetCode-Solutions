@@ -35,4 +35,4 @@ public:
         for(auto i: queries) ans.push_back(freq[i]);
         return ans;
     }
-};©leetcode
+};
