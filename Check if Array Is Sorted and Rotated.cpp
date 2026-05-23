@@ -14,10 +14,6 @@ public:
         }
 
         if(nums[0] < nums[nums.size() - 1]) return 0;
-        for(int i(0);i < x - 2;i++){
-            if(nums[i] > nums[i + 1]) return 0;
-        }
-
         return 1;
     }
 };
